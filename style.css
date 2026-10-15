@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Cinzel', serif;
+  --radius-3xl: 1rem;
+  --radius-2xl: 0.875rem;
+}
+
+@layer base {
+  :root {
+    --gold-primary: #c59b27;
+    --gold-light: #dfba52;
+    --gold-dark: #967010;
+    --bg-light: #ffffff;
+    --bg-card: #ffffff;
+    --border-gold: rgba(197, 155, 39, 0.25);
+  }
+
+  body {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #ffffff;
+    color: #1f2937;
+    overflow-x: hidden;
+  }
+
+  button, input, select, textarea {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  h1, h2, h3, .font-luxury {
+    font-family: 'Cinzel', serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Luxury Solid Accent Utilities (No Gradients) */
+.gold-gradient-text {
+  color: #c59b27;
+}
+
+.gold-gradient-bg {
+  background-color: #c59b27;
+}
+
+.gold-gradient-subtle {
+  background-color: rgba(197, 155, 39, 0.05);
+}
+
+.gold-border {
+  border-color: rgba(197, 155, 39, 0.3);
+}
+
+.gold-border-glow:hover {
+  border-color: rgba(197, 155, 39, 0.9);
+  box-shadow: 0 10px 30px rgba(197, 155, 39, 0.2);
+}
+
+.luxury-card {
+  background: #ffffff;
+  border: 1px solid rgba(197, 155, 39, 0.2);
+  border-radius: 0.875rem;
+  box-shadow: none;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-card:hover {
+  border-color: rgba(197, 155, 39, 0.6);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px rgba(197, 155, 39, 0.18), 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1efe9;
+}
+::-webkit-scrollbar-thumb {
+  background: #c59b27;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #aa7f17;
+}
