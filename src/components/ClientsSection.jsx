@@ -1,44 +1,106 @@
-import logo1 from '../assets/images/real-estate-logo_-construction-logo-design-template-b310fe1b6a68e267cdf318e8a9b2a0ad_screen.jpg';
-import logo2 from '../assets/images/excavator-working-on-sand-in-gear-design-9264ld.png';
-import logo3 from '../assets/images/images_2.png';
-import logo4 from '../assets/images/pngtree-construction-logo-png-image_6066962.png';
-import logo5 from '../assets/images/d017c361c04cbaf0032b3fcf6575952d.jpg';
-import logo6 from '../assets/images/17.jpg';
-
 export default function ClientsSection() {
-  const logos = [
-    { id: 1, img: logo1, name: 'Hilton Worldwide (Hospitality Partner)' },
-    { id: 2, img: logo2, name: 'ISO 9001:2015 Certified Standards' },
-    { id: 3, img: logo3, name: 'Global Technical Textile Buyers (Scap Group)' },
-    { id: 4, img: logo4, name: 'API & Bulk Drug Formulators (Mahek Life Science)' },
-    { id: 5, img: logo5, name: 'Surat Diamond Bourse Alliances (Omit Diamond)' },
-    { id: 6, img: logo6, name: 'Gujarat Commercial & Industrial Partners' }
+  const partners = [
+    {
+      id: 1,
+      name: 'SG Maruti Developers',
+      role: 'Joint Venture Developer',
+      img: '/partners/sg-maruti.png',
+      alt: 'SG Maruti Developers - Joint Venture Partner'
+    },
+    {
+      id: 2,
+      name: 'Anthems Corporation',
+      role: 'Strategic Developer',
+      img: '/partners/anthems-corporation.png',
+      alt: 'Anthems Corporation - Industrial & Realty Developer'
+    },
+    {
+      id: 3,
+      name: 'Parshwa Group',
+      role: 'Development Partner',
+      img: '/partners/parshwa-group.png',
+      alt: 'Parshwa Group - Development Partner'
+    },
+    {
+      id: 4,
+      name: 'Angel Group',
+      role: 'Infrastructure Partner',
+      img: '/partners/angel-group.png',
+      alt: 'Angel Group - Infrastructure & Commercial Partner'
+    },
+    {
+      id: 5,
+      name: 'Atmiya Group',
+      role: 'Developer Alliance',
+      img: '/partners/atmiya-group.png',
+      alt: 'Atmiya Group - Developer Alliance Partner'
+    },
+    {
+      id: 6,
+      name: 'Orange Group',
+      role: 'Industrial & Realty',
+      img: '/partners/orange-group.png',
+      alt: 'Orange Group - Industrial Estate Development'
+    },
+    {
+      id: 7,
+      name: 'Amaara',
+      role: 'Architectural Living',
+      img: '/partners/amaara.png',
+      alt: 'Amaara - Architectural Living & Developments'
+    },
+    {
+      id: 8,
+      name: 'Kyros Developers',
+      role: 'Master-Planned Estates',
+      img: '/partners/kyros-developers.png',
+      alt: 'Kyros Developers - Master-Planned Estates'
+    }
   ];
 
   return (
-    <section id="clients" className="py-5 md:py-7 bg-white border-y border-[#c59b27]/20 relative overflow-hidden">
+    <section id="clients" className="py-6 md:py-8 bg-white border-y border-[#c59b27]/20 relative overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-4 md:mb-5">
-          <span className="text-xs uppercase tracking-widest text-[#9a7210] font-bold block mb-2">
-            Global Partnerships & Institutional Alliances
-          </span>
-          <h2 className="text-xl sm:text-2xl font-bold font-serif text-neutral-900">
-            Our <span className="gold-gradient-text">Clients & Global Alliances</span>
+        
+        {/* Section Header: Matching 'Our Developer Family' Theme */}
+        <div className="text-center mb-5 sm:mb-7">
+        
+          
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif text-neutral-900 tracking-tight">
+            Our <span className="gold-gradient-text">Developer Family</span>
           </h2>
+          
+          <p className="mt-1.5 text-xs sm:text-sm md:text-base text-neutral-600 max-w-2xl mx-auto">
+            Strategic alliances and consortium partners collaborating with Mahek Group across Gujarat's premier industrial, commercial, and residential developments.
+          </p>
         </div>
 
-        {/* Logo Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-6 items-center">
-          {logos.map((c) => (
+        {/* 8-Partner Developer Grid (2 cols on mobile, 4 cols on tablet & desktop) */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 items-stretch">
+          {partners.map((partner) => (
             <div
-              key={c.id}
-              className="group p-3 sm:p-4 rounded-2xl bg-white border border-neutral-200/90 hover:border-[#c59b27] transition-all duration-300 flex items-center justify-center h-20 sm:h-30  hover:shadow-md"
+              key={partner.id}
+              className="group p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-white border border-[#c59b27]/25 hover:border-[#c59b27] transition-all duration-300 flex flex-col items-center justify-between min-h-[140px] sm:min-h-[170px] hover:shadow-[0_12px_30px_rgba(197,155,39,0.18)] hover:-translate-y-1 cursor-default"
             >
-              <img
-                src={c.img}
-                alt={c.name}
-                className="max-h-20 max-w-full object-contain filter grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300 opacity-80 group-hover:opacity-100"
-              />
+              {/* Logo Area */}
+              <div className="w-full flex-1 flex items-center justify-center p-2 bg-neutral-50/60 rounded-xl border border-neutral-100 group-hover:bg-white group-hover:border-[#c59b27]/20 transition-all duration-300">
+                <img
+                  src={partner.img}
+                  alt={partner.alt}
+                  className="max-h-12 sm:max-h-14 max-w-[85%] object-contain group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Title & Role */}
+              <div className="w-full pt-2 sm:pt-2.5 text-center">
+                <p className="text-xs sm:text-sm font-bold text-neutral-900 group-hover:text-[#9a7210] transition-colors truncate">
+                  {partner.name}
+                </p>
+                <p className="text-[10px] sm:text-[11px] uppercase tracking-wider text-neutral-500 font-semibold truncate mt-0.5">
+                  {partner.role}
+                </p>
+              </div>
             </div>
           ))}
         </div>

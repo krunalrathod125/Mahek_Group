@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import {
   Phone, Mail, MapPin, Clock, Send,
-  CheckCircle2, Sparkles, AlertCircle
+  CheckCircle2, AlertCircle
 } from 'lucide-react';
 import { EMAIL_CONFIG } from '../config/emailConfig';
+import { sendLeadEnquiry } from '../services/enquiryService';
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -119,83 +120,18 @@ export default function ContactSection() {
       };
 
       const segmentName = segmentMap[formData.interest] || formData.interest;
-      let emailSent = false;
 
-      // 1. First attempt: Direct /api/enquiry (Sends exact Luxury Dark-Gold HTML Template via Nodemailer)
-      try {
-        const apiRes = await fetch('/api/enquiry', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: formData.name,
-            phone: formData.phone,
-            email: formData.email,
-            interest: segmentName,
-            project: formData.project,
-            message: formData.message,
-            source: 'Website (Consultation Request Form)'
-          })
-        });
+      await sendLeadEnquiry({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        interest: segmentName,
+        project: formData.project,
+        message: formData.message,
+        source: 'Website (Consultation Request Form)'
+      });
 
-        if (apiRes.ok) {
-          const apiData = await apiRes.json();
-          if (apiData.success) {
-            emailSent = true;
-            setSubmitted(true);
-            return;
-          }
-        }
-      } catch {
-        // Continue to Web3Forms fallback
-      }
-
-      // 2. Second attempt: Web3Forms fallback
-      const isConfigured = EMAIL_CONFIG.accessKey && EMAIL_CONFIG.accessKey !== 'YOUR_ACCESS_KEY_HERE';
-
-      if (isConfigured && !emailSent) {
-        const now = new Date();
-        const formattedDate = now.toLocaleString('en-IN', {
-          timeZone: 'Asia/Kolkata',
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: true
-        });
-
-        const response = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          },
-          body: JSON.stringify({
-            access_key: EMAIL_CONFIG.accessKey,
-            subject: `✨ [NEW ENQUIRY] ${segmentName.split('(')[0].trim()} - ${formData.name}`,
-            from_name: 'Mahek Group Leads Portal',
-            replyto: formData.email,
-            '🏢 Organization': 'MAHEK GROUP OF COMPANIES',
-            '👤 Client Name': formData.name,
-            '📞 Mobile Number': `+91 ${formData.phone}`,
-            '✉️ Email Address': formData.email,
-            '🏷️ Business Division': segmentName,
-            '🏗️ Interested Project': formData.project,
-            '💬 Requirements': formData.message.trim() || 'Consultation & pricing inquiry',
-            '📅 Submitted Date': `${formattedDate} IST`
-          })
-        });
-
-        const data = await response.json();
-        if (data.success) {
-          setSubmitted(true);
-        } else {
-          setSubmitError(data.message || 'Unable to submit enquiry. Please verify your details or contact us directly.');
-        }
-      } else if (!emailSent) {
-        await new Promise((res) => setTimeout(res, 800));
-        setSubmitted(true);
-      }
+      setSubmitted(true);
     } catch (err) {
       console.error('Submission error:', err);
       setSubmitError('Network error connecting to email service. Please try again or reach out directly via phone.');
@@ -219,42 +155,39 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-6 md:py-8 bg-white relative overflow-hidden">
+    <section id="contact" className="py-5 md:py-6 bg-white relative overflow-hidden">
       {/* Decorative Aura */}
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#c59b27]/8 rounded-full blur-[140px] pointer-events-none"></div>
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-6 md:mb-8">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#c59b27]/30 text-xs font-bold uppercase tracking-widest text-[#9a7210] mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-[#c59b27]" />
-            <span>Connect With Us</span>
-          </div>
+        <div className="text-center max-w-2xl mx-auto mb-4 md:mb-5">
+          
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif text-neutral-900 tracking-tight">
             Start Your Real Estate <br />
             <span className="gold-gradient-text">Journey Today</span>
           </h2>
-          <p className="mt-4 text-neutral-600 text-sm sm:text-base leading-relaxed font-normal">
+          <p className="mt-2 text-neutral-600 text-xs sm:text-sm md:text-base leading-relaxed font-normal">
             Whether you are acquiring a luxury home, seeking an off-plan investment, or discussing a joint development, our team is at your service.
           </p>
         </div>
 
         {/* Contact Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 items-start">
 
           {/* Left Column: Direct Info & Location */}
           <div className="lg:col-span-5 space-y-4">
 
-            <div className="p-5 sm:p-6 md:p-7 rounded-2xl bg-white border border-[#c59b27]/30 hover:shadow-xl transition-shadow duration-300">
-              <h3 className="text-xl sm:text-2xl font-bold font-serif text-neutral-900 mb-4">
+            <div className="p-4 sm:p-6 md:p-7 rounded-2xl bg-white border border-[#c59b27]/30 hover:shadow-xl transition-shadow duration-300">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold font-serif text-neutral-900 mb-3 sm:mb-4">
                 Corporate Headquarters
               </h3>
 
               <div className="space-y-3.5">
                 {/* Address */}
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-white border border-[#c59b27]/40 flex items-center justify-center flex-shrink-0 text-[#9a7210]">
+                  <div className="w-9 h-9 rounded-xl bg-[#c59b27]/10 border border-[#c59b27]/30 flex items-center justify-center flex-shrink-0 text-[#9a7210]">
                     <MapPin className="w-4 h-4 text-[#c59b27]" />
                   </div>
                   <div>
@@ -272,7 +205,7 @@ export default function ContactSection() {
 
                 {/* Telephone */}
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-white border border-[#c59b27]/40 flex items-center justify-center flex-shrink-0 text-[#9a7210]">
+                  <div className="w-9 h-9 rounded-xl bg-[#c59b27]/10 border border-[#c59b27]/30 flex items-center justify-center flex-shrink-0 text-[#9a7210]">
                     <Phone className="w-4 h-4 text-[#c59b27]" />
                   </div>
                   <div>
@@ -290,7 +223,7 @@ export default function ContactSection() {
 
                 {/* Email */}
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-white border border-[#c59b27]/40 flex items-center justify-center flex-shrink-0 text-[#9a7210]">
+                  <div className="w-9 h-9 rounded-xl bg-[#c59b27]/10 border border-[#c59b27]/30 flex items-center justify-center flex-shrink-0 text-[#9a7210]">
                     <Mail className="w-4 h-4 text-[#c59b27]" />
                   </div>
                   <div>
@@ -308,7 +241,7 @@ export default function ContactSection() {
 
                 {/* Hours */}
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-white border border-[#c59b27]/40 flex items-center justify-center flex-shrink-0 text-[#9a7210]">
+                  <div className="w-9 h-9 rounded-xl bg-[#c59b27]/10 border border-[#c59b27]/30 flex items-center justify-center flex-shrink-0 text-[#9a7210]">
                     <Clock className="w-4 h-4 text-[#c59b27]" />
                   </div>
                   <div>
@@ -342,10 +275,10 @@ export default function ContactSection() {
 
           {/* Right Column: Interactive Form */}
           <div className="lg:col-span-7">
-            <div className="p-5 sm:p-6 md:p-7 rounded-2xl bg-white border border-[#c59b27]/30 hover:shadow-xl transition-shadow duration-300">
+            <div className="p-4 sm:p-6 md:p-7 rounded-2xl bg-white border border-[#c59b27]/30 hover:shadow-xl transition-shadow duration-300">
 
               <div className="mb-4">
-                <h3 className="text-xl sm:text-2xl font-bold font-serif text-neutral-900 mb-0.5">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold font-serif text-neutral-900 mb-0.5">
                   Send a Message
                 </h3>
                 <p className="text-xs text-neutral-500">
@@ -387,10 +320,10 @@ export default function ContactSection() {
                         onBlur={() => handleBlur('name')}
                         placeholder="e.g. David Cooper"
                         className={`w-full bg-white border rounded-xl px-3.5 py-2 text-xs sm:text-sm text-neutral-900 focus:outline-none transition-colors ${touched.name && errors.name
-                            ? 'border-red-400 focus:border-red-500 bg-red-50/20'
-                            : touched.name && formData.name.trim()
-                              ? 'border-[#c59b27]/60 focus:border-[#c59b27]'
-                              : 'border-neutral-300 focus:border-[#c59b27]'
+                          ? 'border-red-400 focus:border-red-500 bg-red-50/20'
+                          : touched.name && formData.name.trim()
+                            ? 'border-[#c59b27]/60 focus:border-[#c59b27]'
+                            : 'border-neutral-300 focus:border-[#c59b27]'
                           }`}
                       />
                       {touched.name && errors.name && (
@@ -413,10 +346,10 @@ export default function ContactSection() {
                         onBlur={() => handleBlur('email')}
                         placeholder="e.g. david@example.com"
                         className={`w-full bg-white border rounded-xl px-3.5 py-2 text-xs sm:text-sm text-neutral-900 focus:outline-none transition-colors ${touched.email && errors.email
-                            ? 'border-red-400 focus:border-red-500 bg-red-50/20'
-                            : touched.email && formData.email.trim()
-                              ? 'border-[#c59b27]/60 focus:border-[#c59b27]'
-                              : 'border-neutral-300 focus:border-[#c59b27]'
+                          ? 'border-red-400 focus:border-red-500 bg-red-50/20'
+                          : touched.email && formData.email.trim()
+                            ? 'border-[#c59b27]/60 focus:border-[#c59b27]'
+                            : 'border-neutral-300 focus:border-[#c59b27]'
                           }`}
                       />
                       {touched.email && errors.email && (
@@ -452,10 +385,10 @@ export default function ContactSection() {
                         onBlur={() => handleBlur('phone')}
                         placeholder="e.g. 9377744633"
                         className={`w-full bg-white border rounded-xl px-3.5 py-2 text-xs sm:text-sm text-neutral-900 focus:outline-none transition-colors ${touched.phone && errors.phone
-                            ? 'border-red-400 focus:border-red-500 bg-red-50/20'
-                            : touched.phone && formData.phone.length === 10
-                              ? 'border-[#c59b27]/60 focus:border-[#c59b27]'
-                              : 'border-neutral-300 focus:border-[#c59b27]'
+                          ? 'border-red-400 focus:border-red-500 bg-red-50/20'
+                          : touched.phone && formData.phone.length === 10
+                            ? 'border-[#c59b27]/60 focus:border-[#c59b27]'
+                            : 'border-neutral-300 focus:border-[#c59b27]'
                           }`}
                       />
                       {touched.phone && errors.phone && (
@@ -515,14 +448,14 @@ export default function ContactSection() {
                       Your Message or Inquiry
                     </label>
                     <textarea
-                      rows={2.5}
+                      rows={3}
                       value={formData.message}
                       onChange={(e) => handleChange('message', e.target.value)}
                       onBlur={() => handleBlur('message')}
-                      placeholder="Please mention your project interest, corporate requirements, or any specific questions..."
-                      className={`w-full bg-white border rounded-xl px-3.5 py-2 text-xs sm:text-sm text-neutral-900 focus:outline-none transition-colors resize-none ${touched.message && errors.message
-                          ? 'border-red-400 focus:border-red-500 bg-red-50/20'
-                          : 'border-neutral-300 focus:border-[#c59b27]'
+                      placeholder="Write your message or inquiry..."
+                      className={`w-full bg-white border rounded-xl px-3.5 py-2 text-xs sm:text-sm text-neutral-900 focus:outline-none transition-colors resize-none overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${touched.message && errors.message
+                        ? 'border-red-400 focus:border-red-500 bg-red-50/20'
+                        : 'border-neutral-300 focus:border-[#c59b27]'
                         }`}
                     ></textarea>
                     {touched.message && errors.message && (
@@ -559,10 +492,6 @@ export default function ContactSection() {
                       </span>
                     )}
                   </button>
-
-                  <p className="text-[10px] sm:text-[11px] text-neutral-500 text-center font-medium">
-                    🔒 Strict client confidentiality assured. We never share your personal information.
-                  </p>
 
                 </form>
               )}

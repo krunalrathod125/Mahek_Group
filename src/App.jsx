@@ -1,141 +1,161 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-// import PropertySearch from './components/PropertySearch';
-import BestFeatures from './components/BestFeatures';
-import SignatureProjects from './components/SignatureProjects';
-import ServicesSection from './components/ServicesSection';
-import AboutUs from './components/AboutUs';
-import ClientsSection from './components/ClientsSection';
-import CompanyDifference from './components/CompanyDifference';
-import Testimonials from './components/Testimonials';
-import MortgageCalculator from './components/MortgageCalculator';
-import BlogSection from './components/BlogSection';
-import FaqSection from './components/FaqSection';
-import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
-import ProjectModal from './components/ProjectModal';
+import HomePage from './pages/HomePage';
+import ProjectsPage from './pages/ProjectsPage';
+import ProjectDetailsPage from './pages/ProjectDetailsPage';
+import BlogDetailsPage from './pages/BlogDetailsPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import DisclaimerPage from './pages/DisclaimerPage';
+import ProjectEnquiryModal from './components/ProjectEnquiryModal';
+import ImageLightboxModal from './components/ImageLightboxModal';
 import SearchModal from './components/SearchModal';
 import FloatingActions from './components/FloatingActions';
 
 function App() {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [enquiryProject, setEnquiryProject] = useState(null);
+  const [lightboxState, setLightboxState] = useState({
+    isOpen: false,
+    src: '',
+    title: '',
+    subtitle: '',
+    images: [],
+    initialIndex: 0
+  });
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [activeFilters] = useState(null);
 
+  // Deep-linking: On page load or popstate with ?project=slug or ?article=id, seamlessly redirect
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(location.search);
+      const projectId = params.get('project');
+      if (projectId && (location.pathname === '/' || location.pathname === '/projects')) {
+        navigate(`/project/${projectId}`, { replace: true });
+        return;
+      }
+      const articleId = params.get('article');
+      if (articleId && location.pathname === '/') {
+        navigate(`/blog/${articleId}`, { replace: true });
+        return;
+      }
+    } catch {
+      // Ignored
+    }
+  }, [location, navigate]);
+
   const scrollToContact = () => {
-    const contactElem = document.getElementById('contact');
-    if (contactElem) {
-      contactElem.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/#contact');
+    } else {
+      const contactElem = document.getElementById('contact');
+      if (contactElem) {
+        contactElem.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
   const scrollToProjects = () => {
-    const projectsElem = document.getElementById('projects');
-    if (projectsElem) {
-      projectsElem.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/projects');
+    } else {
+      const projectsElem = document.getElementById('projects');
+      if (projectsElem) {
+        projectsElem.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
+  const handleOpenLightbox = (src, title, subtitle, images = null, initialIndex = 0) => {
+    setLightboxState({
+      isOpen: true,
+      src,
+      title: title || 'Project Architectural View',
+      subtitle: subtitle || 'Mahek Real Estate Profile',
+      images: images || (src ? [{ url: src, title, subtitle }] : []),
+      initialIndex
+    });
+  };
+
+  const handleCloseLightbox = () => {
+    setLightboxState({ isOpen: false, src: '', title: '', subtitle: '', images: [], initialIndex: 0 });
+  };
+
   return (
-    <div className="min-h-screen bg-white text-[#1f2937] relative selection:bg-[#c59b27] selection:text-white">
-      {/* Navigation */}
+    <div className="min-h-screen bg-white text-[#1f2937] relative selection:bg-[#c59b27] selection:text-white flex flex-col justify-between">
+      {/* Navigation Bar */}
       <Navbar
         onOpenContact={scrollToContact}
         onOpenSearch={() => setSearchModalOpen(true)}
-        onSelectProject={(project) => setSelectedProject(project)}
       />
 
-      {/* Main Content Sections */}
-      <main>
-        {/* 1. Hero Construction Banner */}
-        <Hero
-          onExploreProjects={scrollToProjects}
-          onOpenContact={scrollToContact}
-        />
+      {/* Multipage Main Body */}
+      <div className="flex-1">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                onEnquire={(proj) => setEnquiryProject(proj)}
+                activeFilters={activeFilters}
+                scrollToContact={scrollToContact}
+                scrollToProjects={scrollToProjects}
+              />
+            }
+          />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/project/:slug" element={<ProjectDetailsPage />} />
+          <Route path="/projects/:slug" element={<ProjectDetailsPage />} />
+          <Route path="/blog/:id" element={<BlogDetailsPage />} />
+          <Route path="/news/:id" element={<BlogDetailsPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/disclaimer" element={<DisclaimerPage />} />
+          <Route path="/terms" element={<DisclaimerPage />} />
+          <Route path="/disclosures" element={<DisclaimerPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
 
-        {/* 2. Real Estate Search & Filter */}
-        {/* <PropertySearch
-          onFilterChange={(filters) => setActiveFilters(filters)}
-        /> */}
+      {/* Global Footer */}
+      <Footer onOpenContact={scrollToContact} />
 
-        {/* 3. Core Capabilities / Best Features */}
-        <BestFeatures
-          onSelectFeature={() => scrollToProjects()}
-        />
-
-          {/* 4. About Us: Your Vision Is Our Mission */}
-        <AboutUs
-          onOpenContact={scrollToContact}
-        />
-
-        {/* 5. Signature & Recent Projects */}
-        <SignatureProjects
-          activeFilters={activeFilters}
-          onSelectProject={(project) => setSelectedProject(project)}
-        />
-
-        {/* 6. Services Offered by Mahek Real Estate */}
-        <ServicesSection />
-
-        {/* 7. Institutional Clients & Partners */}
-        <ClientsSection />
-
-        {/* 8. The Mahek Difference: Ambition, Purpose, Values */}
-        {/* <CompanyDifference /> */}
-
-        {/* 9. Testimonials: Our Sweet Clients Say */}
-        <Testimonials />
-
-        {/* 10. Mortgage & Investment ROI Calculator */}
-        {/* <MortgageCalculator
-          onOpenContact={scrollToContact}
-        /> */}
-
-        {/* 11. Latest News & Groundbreaking Milestones */}
-        <BlogSection
-          onSelectPost={() => scrollToContact()}
-        />
-
-        {/* 12. Frequently Asked Questions */}
-        <FaqSection
-          onOpenContact={scrollToContact}
-        />
-
-        {/* 13. Consultation & Contact Form */}
-        <ContactSection />
-      </main>
-
-      {/* Footer */}
-      <Footer
-        onOpenContact={scrollToContact}
+      {/* Global Project Enquiry Modal (for quick CTA inquiries across cards) */}
+      <ProjectEnquiryModal
+        isOpen={Boolean(enquiryProject)}
+        project={enquiryProject}
+        onClose={() => setEnquiryProject(null)}
+        initialInterest="Request Project Details & Availability"
       />
 
-      {/* Modals & Overlays */}
-      {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-          onOpenConsultation={() => {
-            setSelectedProject(null);
-            scrollToContact();
-          }}
-        />
-      )}
+      {/* Global Architectural Layout Lightbox Modal */}
+      <ImageLightboxModal
+        isOpen={lightboxState.isOpen}
+        imageSrc={lightboxState.src}
+        title={lightboxState.title}
+        subtitle={lightboxState.subtitle}
+        images={lightboxState.images}
+        initialIndex={lightboxState.initialIndex}
+        onClose={handleCloseLightbox}
+      />
 
+      {/* Global Search Modal - Navigates directly to project details page */}
       <SearchModal
         isOpen={searchModalOpen}
         onClose={() => setSearchModalOpen(false)}
-        onSelectProject={(project) => {
+        onSelectProject={(selectedProject) => {
           setSearchModalOpen(false);
-          setSelectedProject(project);
+          if (selectedProject) {
+            navigate(`/project/${selectedProject.slug || selectedProject.id}`);
+          }
         }}
       />
 
       {/* Floating Chat & Scroll Actions */}
-      <FloatingActions
-        onOpenContact={scrollToContact}
-      />
+      <FloatingActions onOpenContact={scrollToContact} />
     </div>
   );
 }

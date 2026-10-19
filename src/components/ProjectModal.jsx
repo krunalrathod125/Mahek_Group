@@ -25,6 +25,62 @@ export default function ProjectModal({ project, onClose, onOpenConsultation }) {
     };
   }, [project, onClose]);
 
+  const handleDownloadPdf = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+
+    const knownPdfMap = {
+      'the-mahek-park-1': '/brochures/the-mahek-park-1.pdf',
+      'orange-mahek-park': '/brochures/orange-mahek-park.pdf',
+      'mahek-it-park': '/brochures/mahek-it-park.pdf',
+      'the-am-park': '/brochures/the-am-park.pdf',
+      'anthems-mahek-park': '/brochures/anthems-mahek-park.pdf',
+      'mahek-residency': '/brochures/mahek-residency.pdf',
+      'it-park': '/brochures/mahek-it-park.pdf',
+      'mahek-park': '/brochures/the-mahek-park-1.pdf',
+      'villas': '/brochures/mahek-residency.pdf',
+    };
+
+    let targetUrl = project?.pdfUrl;
+    if (!targetUrl && (project?.id || project?.slug)) {
+      targetUrl = knownPdfMap[project.id] || knownPdfMap[project.slug];
+    }
+    if (!targetUrl) {
+      targetUrl = '/Mahek-Group-Profile.pdf';
+    }
+
+    const cleanName = ((project && (project.name || project.title)) || 'Mahek_Group_Project').replace(/[^a-zA-Z0-9_-]/g, '_');
+    const fileName = `${cleanName}_Brochure.pdf`;
+
+    setBrochureRequested(true);
+    setTimeout(() => setBrochureRequested(false), 4500);
+
+    try {
+      window.open(targetUrl, '_blank', 'noopener,noreferrer');
+    } catch {
+      // Ignored if window.open fails
+    }
+
+    try {
+      const res = await fetch(targetUrl);
+      if (res.ok) {
+        const blob = await res.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.style.display = 'none';
+        link.href = blobUrl;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(blobUrl);
+        }, 2000);
+      }
+    } catch (err) {
+      console.warn('Blob download fallback:', err);
+    }
+  };
+
   if (!project) return null;
 
   return (
@@ -33,7 +89,7 @@ export default function ProjectModal({ project, onClose, onOpenConsultation }) {
       onClick={onClose}
     >
       <div 
-        className="relative w-full max-w-4xl max-h-[90vh] bg-white border border-[#c59b27]/40 rounded-2xl overflow-y-auto shadow-2xl flex flex-col overscroll-contain"
+        className="relative w-full max-w-4xl max-h-[90vh] bg-white border border-[#c59b27]/40 rounded-2xl overflow-y-auto no-scrollbar shadow-2xl flex flex-col overscroll-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -55,9 +111,11 @@ export default function ProjectModal({ project, onClose, onOpenConsultation }) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40"></div>
           
           <div className="absolute top-6 left-6 flex items-center gap-2">
-            <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border backdrop-blur-md ${project.statusColor}`}>
-              {project.status}
-            </span>
+            {project.status && (
+              <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border backdrop-blur-md ${project.statusColor || ''}`}>
+                {project.status}
+              </span>
+            )}
             <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/90 text-[#9a7210] border border-[#c59b27]/40 backdrop-blur-md">
               {project.category}
             </span>
@@ -65,7 +123,7 @@ export default function ProjectModal({ project, onClose, onOpenConsultation }) {
 
           <div className="absolute bottom-6 left-6 right-6 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
             <div>
-              <div className="flex items-center gap-1.5 text-xs text-white/90 mb-1 font-medium">
+              <div className="hidden sm:flex items-center gap-1.5 text-xs text-white/90 mb-1 font-medium">
                 <MapPin className="w-3.5 h-3.5 text-[#e5c365]" />
                 <span>{project.location}</span>
               </div>
@@ -108,7 +166,7 @@ export default function ProjectModal({ project, onClose, onOpenConsultation }) {
           <div>
             <h3 className="text-lg font-bold font-serif text-neutral-900 mb-2">Project Overview</h3>
             <p className="text-sm text-neutral-600 leading-relaxed font-normal">
-              {project.description} Designed, engineered, and operated with the visionary standards of Mahek Group. Every square meter reflects over 40 years of entrepreneurial dedication, sustainable construction, and long-term value creation.
+              {project.description} Designed, engineered, and operated with the visionary standards of Mahek Real Estate. Every square meter reflects over 40 years of entrepreneurial dedication, sustainable construction, and long-term value creation.
             </p>
           </div>
 
@@ -131,19 +189,30 @@ export default function ProjectModal({ project, onClose, onOpenConsultation }) {
           <div className="p-6 rounded-2xl bg-white border border-[#c59b27]/30 flex flex-col sm:flex-row items-center justify-between gap-4 hover:shadow-md transition-shadow">
             <div>
               <h4 className="text-base font-bold font-serif text-neutral-900">Interested in this project?</h4>
-              <p className="text-xs text-neutral-600 font-normal">Connect with Mahek Group headquarters for commercial leasing, joint ventures, or inquiries.</p>
+              <p className="text-xs text-neutral-600 font-normal">Connect with Mahek Real Estate headquarters for commercial leasing, joint ventures, or inquiries.</p>
             </div>
 
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <button
-                onClick={() => {
-                  setBrochureRequested(true);
-                  setTimeout(() => setBrochureRequested(false), 3000);
-                }}
-                className="flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-white border border-neutral-300 hover:border-[#c59b27] hover:shadow-sm text-xs font-bold text-neutral-800 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                onClick={handleDownloadPdf}
+                className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  brochureRequested
+                    ? 'bg-emerald-50 border-emerald-400 text-emerald-700 shadow-xs'
+                    : 'bg-white border-neutral-300 hover:border-[#c59b27] hover:shadow-xs text-neutral-800'
+                }`}
+                title="Download Official Project PDF Brochure"
               >
-                <Download className="w-3.5 h-3.5 text-[#c59b27]" />
-                <span>{brochureRequested ? 'Brochure Sent!' : 'Project Brochure'}</span>
+                {brochureRequested ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Brochure Downloaded!</span>
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-3.5 h-3.5 text-[#c59b27]" />
+                    <span>Project Brochure</span>
+                  </>
+                )}
               </button>
 
               <button

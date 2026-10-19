@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Star, ChevronLeft, ChevronRight, Quote, Sparkles } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import avatar1 from '../assets/images/31.jpg';
 import avatar2 from '../assets/images/elizabeth-favre-4e3a01fe645f44869b1f2a8aa21f3ab2_100x100.jpg';
 import avatar3 from '../assets/images/people-headshot-lindsay-kimble-9855440283c440159d1684a4befaa97d_100x100.jpg';
@@ -51,7 +51,7 @@ export default function Testimonials() {
       role: 'Hospitality Partner & Investor',
       avatar: avatar5,
       project: 'Hilton Garden Inn Surat',
-      text: 'Introducing Gujarat’s first Hilton Garden Inn alongside Mahek Group has redefined Surat’s hospitality horizon. Their institutional governance, architectural foresight, and execution speed are unmatched in the region.',
+      text: 'Introducing Gujarat’s first Hilton Garden Inn alongside Mahek Real Estate has redefined Surat’s hospitality horizon. Their institutional governance, architectural foresight, and execution speed are unmatched in the region.',
       rating: 5
     },
     {
@@ -145,29 +145,24 @@ export default function Testimonials() {
   const activeDot = currentIndex % baseSlides.length;
 
   return (
-    <section className="py-6 md:py-8 bg-white relative overflow-hidden">
+    <section className="py-5 md:py-6 bg-white relative overflow-hidden">
       {/* Decorative Aura */}
       <div className="absolute top-1/2 right-10 w-96 h-96 bg-[#c59b27]/8 rounded-full blur-[150px] pointer-events-none"></div>
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-6 md:mb-8 gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#c59b27]/30 text-xs font-bold uppercase tracking-widest text-[#9a7210] mb-3">
-              <Sparkles className="w-3.5 h-3.5 text-[#c59b27]" />
-              <span>Client Experiences</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif text-neutral-900 tracking-tight">
-              Our Sweet <span className="gold-gradient-text">Clients Say</span>
-            </h2>
-            <p className="mt-3 text-neutral-600 text-sm sm:text-base max-w-lg font-normal">
-              Verified feedback from corporate enterprise tenants, industrial partners, healthcare leaders, and luxury homeowners.
-            </p>
-          </div>
+        <div className="text-center max-w-3xl mx-auto mb-3 md:mb-5">
+         
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif text-neutral-900 tracking-tight">
+            Our Sweet <span className="gold-gradient-text">Clients Say</span>
+          </h2>
+          <p className="mt-2 text-neutral-600 text-xs sm:text-sm md:text-base max-w-xl mx-auto font-normal leading-relaxed">
+            Verified feedback from corporate enterprise tenants, industrial partners, healthcare leaders, and luxury homeowners.
+          </p>
 
-          {/* Navigation Controls */}
-          <div className="flex items-center gap-3">
+          {/* Centered Navigation Controls */}
+          <div className="flex items-center justify-center gap-3 mt-3">
             <button
               onClick={prev}
               aria-label="Previous Testimonials"
@@ -184,6 +179,7 @@ export default function Testimonials() {
             </button>
           </div>
         </div>
+
 
         {/* Auto Scroll Slider Container (Infinite Forward Loop) */}
         <div 
@@ -205,7 +201,7 @@ export default function Testimonials() {
                 {pair.map((t, cardIdx) => (
                   <div
                     key={`${t.id}-${pIdx}-${cardIdx}`}
-                    className="p-6 sm:p-7 rounded-2xl bg-white border border-neutral-200/90 hover:border-[#c59b27] hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                    className="p-6 sm:p-7 rounded-2xl bg-white border border-[#c59b27]/25 hover:border-[#c59b27] hover:shadow-[0_15px_35px_-10px_rgba(197,155,39,0.2)] transition-all duration-300 flex flex-col justify-between"
                   >
                     <div>
                       {/* Top Row: Stars + Quote Icon */}

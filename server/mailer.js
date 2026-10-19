@@ -13,7 +13,7 @@ export function buildLeadEmailHtml({ name, phone, email, interest, project, mess
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #0c0a09; color: #ffffff; padding: 24px; border-radius: 12px; border: 1px solid #d4af37;">
       <div style="border-bottom: 2px solid #d4af37; padding-bottom: 12px; margin-bottom: 20px;">
-        <h2 style="color: #fbe285; margin: 0; font-size: 20px; font-weight: bold;">✨ New Mahek Group Consultation Lead</h2>
+        <h2 style="color: #fbe285; margin: 0; font-size: 20px; font-weight: bold;">✨ New Mahek Real Estate Consultation Lead</h2>
         <p style="color: #a8a29e; font-size: 12px; margin: 4px 0 0 0;">Received from Website (${source})</p>
       </div>
       
@@ -51,7 +51,7 @@ export function buildLeadEmailHtml({ name, phone, email, interest, project, mess
       </table>
 
       <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #292524; text-align: center;">
-        <a href="https://wa.me/91${cleanPhone}?text=Hello%20${encodeURIComponent(name)},%20thank%20you%20for%20contacting%20Mahek%20Group.%20We%20received%20your%20inquiry%20regarding%20${encodeURIComponent(project)}." style="background: #22c55e; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: bold; display: inline-block;">
+        <a href="https://wa.me/91${cleanPhone}?text=Hello%20${encodeURIComponent(name)},%20thank%20you%20for%20contacting%20Mahek%20Real%20Estate.%20We%20received%20your%20inquiry%20regarding%20${encodeURIComponent(project)}." style="background: #22c55e; color: #ffffff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: bold; display: inline-block;">
           📱 Quick Reply on WhatsApp
         </a>
       </div>
@@ -67,7 +67,7 @@ export async function sendEnquiryEmail(payload) {
   const smtpPort = process.env.SMTP_PORT || 587;
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
-  const recipientEmail = process.env.ENQUIRY_RECIPIENT_EMAIL || 'infomahek2@gmail.com';
+  const recipientEmail = process.env.ENQUIRY_RECIPIENT_EMAIL || 'cse.22084013125@gmail.com';
 
   if (!smtpUser || !smtpPass) {
     return {
@@ -88,10 +88,10 @@ export async function sendEnquiryEmail(payload) {
   });
 
   const mailHtml = buildLeadEmailHtml(payload);
-  const mailSubject = `✨ New Mahek Group Lead: ${payload.name} (${payload.project || 'General Enquiry'})`;
+  const mailSubject = `✨ New Mahek Real Estate Lead: ${payload.name} (${payload.project || 'General Enquiry'})`;
 
   await transporter.sendMail({
-    from: `"Mahek Group Portal" <${smtpUser}>`,
+    from: `"Mahek Real Estate Portal" <${smtpUser}>`,
     to: recipientEmail,
     replyTo: payload.email || undefined,
     subject: mailSubject,

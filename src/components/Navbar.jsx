@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
 import {
   Menu, X, Phone, Mail, Clock, Search,
-  ChevronRight, ArrowRight, Building, Award, ShieldCheck
+  ChevronRight, ArrowRight, Building2
 } from 'lucide-react';
 
-export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _onSelectProject }) {
+export default function Navbar({ onOpenContact: _onOpenContact, onOpenSearch }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Track scroll state for subtle shadow enhancement
   useEffect(() => {
@@ -39,12 +42,23 @@ export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const scrollToSection = (id) => {
+  const handleNavClick = (sectionId) => {
     setDrawerOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate(`/#${sectionId}`);
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
+  };
+
+  const handleProjectsClick = () => {
+    setDrawerOpen(false);
+    navigate('/projects');
   };
 
   return (
@@ -54,33 +68,58 @@ export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _
       {/* ============================================================ */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#c59b27]/25 transition-all duration-300 ${isScrolled
-            ? 'shadow-[0_4px_20px_rgba(197,155,39,0.08)] py-1 sm:py-1.5'
-            : 'shadow-[0_1px_4px_rgba(0,0,0,0.04)] py-1.5 sm:py-2'
+            ? 'py-1.5 shadow-sm'
+            : 'py-2 sm:py-2.5'
           }`}
       >
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo (Left) */}
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); scrollToSection('hero'); }}
-            className="flex items-center gap-2 group focus:outline-none"
+          <Link
+            to="/"
+            onClick={() => {
+              if (location.pathname === '/') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            className="flex items-center gap-2 group focus:outline-none cursor-pointer"
             aria-label="Mahek Real Estate Home"
           >
             <img
               src={logoImg}
               alt="Mahek Real Estate"
-              className="h-7 sm:h-8 md:h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-102"
+              className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
-          </a>
+          </Link>
 
-          {/* Clean Hamburger Menu Button (Right, gold theme matching logo) */}
-          <button
-            onClick={() => setDrawerOpen(true)}
-            aria-label="Open Navigation Menu"
-            className="p-1.5 sm:p-2 rounded-xl text-[#c59b27] hover:text-[#9a7210] hover:bg-neutral-100 border border-[#c59b27]/20 hover:border-[#c59b27] transition-all duration-200 cursor-pointer focus:outline-none"
-          >
-            <Menu className="w-5.5 h-5.5 sm:w-6 sm:h-6 stroke-[2.2]" />
-          </button>
+          {/* Quick Header Actions */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Search Button in Navbar */}
+            <button
+              onClick={() => onOpenSearch && onOpenSearch()}
+              aria-label="Search Projects"
+              className="p-1.5 sm:px-3 sm:py-1.5 rounded-xl text-neutral-700 hover:text-[#9a7210] hover:bg-neutral-100 border border-[#c59b27]/20 hover:border-[#c59b27] transition-all duration-200 cursor-pointer flex items-center gap-1.5 text-xs font-bold"
+            >
+              <Search className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-[#c59b27]" />
+              <span className="hidden sm:inline">Search</span>
+            </button>
+
+            <Link
+              to="/projects"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all text-neutral-700 hover:text-[#9a7210] hover:bg-neutral-100 border border-[#c59b27]/20 cursor-pointer"
+            >
+              <Building2 className="w-3.5 h-3.5 text-[#c59b27]" />
+              <span>Explore Projects</span>
+            </Link>
+
+            {/* Clean Hamburger Menu Button (Right, gold theme matching logo) */}
+            <button
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open Navigation Menu"
+              className="p-1.5 sm:p-2 rounded-xl text-[#c59b27] hover:text-[#9a7210] hover:bg-neutral-100 border border-[#c59b27]/20 hover:border-[#c59b27] transition-all duration-200 cursor-pointer focus:outline-none"
+            >
+              <Menu className="w-5.5 h-5.5 sm:w-6 sm:h-6 stroke-[2.2]" />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -105,7 +144,7 @@ export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _
         {/* Drawer Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#c59b27]/20 bg-white">
           <div className="flex items-center gap-2">
-            <img src={logoImg} alt="Mahek Real Estate" className="h-8 sm:h-9 w-auto object-contain" />
+            <img src={logoImg} alt="Mahek Real Estate" className="h-10 sm:h-12 w-auto object-contain" />
           </div>
           <button
             onClick={() => setDrawerOpen(false)}
@@ -117,9 +156,9 @@ export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _
         </div>
 
         {/* Scrollable Navigation Links */}
-        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-7 divide-y divide-[#c59b27]/15">
+        <div className="flex-1 overflow-y-auto px-6 py-6">
 
-          {/* Section 1: Main Menu */}
+          {/* Main Menu */}
           <div>
             <h4 className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#9a7210] mb-3">
               Main Menu
@@ -127,7 +166,7 @@ export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _
             <ul className="space-y-1">
               <li>
                 <button
-                  onClick={() => scrollToSection('hero')}
+                  onClick={() => handleNavClick('hero')}
                   className="w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-neutral-800 hover:text-[#9a7210] hover:bg-neutral-100 transition-colors flex items-center justify-between group cursor-pointer"
                 >
                   <span>Home</span>
@@ -136,7 +175,7 @@ export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('about')}
+                  onClick={() => handleNavClick('about')}
                   className="w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-neutral-800 hover:text-[#9a7210] hover:bg-neutral-100 transition-colors flex items-center justify-between group cursor-pointer"
                 >
                   <span>About Us (Est. 1982)</span>
@@ -145,7 +184,7 @@ export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('services')}
+                  onClick={() => handleNavClick('services')}
                   className="w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-neutral-800 hover:text-[#9a7210] hover:bg-neutral-100 transition-colors flex items-center justify-between group cursor-pointer"
                 >
                   <span>Business Segments</span>
@@ -154,16 +193,19 @@ export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('projects')}
+                  onClick={handleProjectsClick}
                   className="w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-neutral-800 hover:text-[#9a7210] hover:bg-neutral-100 transition-colors flex items-center justify-between group cursor-pointer"
                 >
-                  <span>Projects (18+)</span>
+                  <span className="flex items-center gap-2">
+                    <span>Explore All Projects</span>
+                    <span className="px-1.5 py-0.5 rounded text-[10px] bg-[#c59b27]/20 text-[#9a7210] font-bold">6 Flagships</span>
+                  </span>
                   <ChevronRight className="w-4 h-4 text-neutral-300 group-hover:text-[#c59b27] transition-transform group-hover:translate-x-1" />
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('features')}
+                  onClick={() => handleNavClick('features')}
                   className="w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-neutral-800 hover:text-[#9a7210] hover:bg-neutral-100 transition-colors flex items-center justify-between group cursor-pointer"
                 >
                   <span>Capabilities & Story</span>
@@ -172,61 +214,26 @@ export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _
               </li>
               <li>
                 <button
-                  onClick={() => scrollToSection('contact')}
+                  onClick={() => handleNavClick('gallery')}
+                  className="w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-neutral-800 hover:text-[#9a7210] hover:bg-neutral-100 transition-colors flex items-center justify-between group cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <span>Photo Gallery</span>
+                    <span className="px-1.5 py-0.5 rounded text-[10px] bg-[#c59b27]/20 text-[#9a7210] font-bold">Expo & IT</span>
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-neutral-300 group-hover:text-[#c59b27] transition-transform group-hover:translate-x-1" />
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleNavClick('contact')}
                   className="w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-neutral-800 hover:text-[#9a7210] hover:bg-neutral-100 transition-colors flex items-center justify-between group cursor-pointer"
                 >
                   <span>Contact Us</span>
                   <ChevronRight className="w-4 h-4 text-neutral-300 group-hover:text-[#c59b27] transition-transform group-hover:translate-x-1" />
                 </button>
               </li>
-              <li>
-                <button
-                  onClick={() => {
-                    setDrawerOpen(false);
-                    if (onOpenSearch) onOpenSearch();
-                  }}
-                  className="w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-neutral-800 hover:text-[#9a7210] hover:bg-neutral-100 transition-colors flex items-center justify-between group cursor-pointer"
-                >
-                  <span className="flex items-center gap-2">
-                    <Search className="w-4 h-4 text-[#c59b27]" />
-                    <span>Search Projects</span>
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-neutral-300 group-hover:text-[#c59b27] transition-transform group-hover:translate-x-1" />
-                </button>
-              </li>
             </ul>
-          </div>
-
-          {/* Section 2: Business Segments */}
-          <div className="pt-6">
-            <h4 className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#9a7210] mb-3">
-              Our 5 Business Segments
-            </h4>
-            <div className="space-y-2">
-              <div className="p-3 rounded-xl bg-white border border-[#c59b27]/25 flex items-start gap-3">
-                <Building className="w-5 h-5 text-[#c59b27] shrink-0 mt-0.5" />
-                <div>
-                  <h5 className="text-xs font-bold text-neutral-900">Real Estate (Mahek Realty)</h5>
-                  <p className="text-[11px] text-neutral-600">18+ landmark commercial & residential hubs</p>
-                </div>
-              </div>
-
-              <div className="p-3 rounded-xl bg-white border border-[#c59b27]/25 flex items-start gap-3">
-                <Award className="w-5 h-5 text-[#c59b27] shrink-0 mt-0.5" />
-                <div>
-                  <h5 className="text-xs font-bold text-neutral-900">Hospitality (Hilton Garden Inn)</h5>
-                  <p className="text-[11px] text-neutral-600">Gujarat&apos;s 1st Hilton in Surat City Centre</p>
-                </div>
-              </div>
-
-              <div className="p-3 rounded-xl bg-white border border-[#c59b27]/25 flex items-start gap-3">
-                <ShieldCheck className="w-5 h-5 text-[#c59b27] shrink-0 mt-0.5" />
-                <div>
-                  <h5 className="text-xs font-bold text-neutral-900">Technical Textiles (Scap Group)</h5>
-                  <p className="text-[11px] text-neutral-600">25M+ meters/yr non-woven fabrics (ISO 9001:2015)</p>
-                </div>
-              </div>
-            </div>
           </div>
 
         </div>
@@ -249,13 +256,10 @@ export default function Navbar({ onOpenContact, onOpenSearch, onSelectProject: _
           </div>
 
           <button
-            onClick={() => {
-              setDrawerOpen(false);
-              if (onOpenContact) onOpenContact();
-            }}
+            onClick={() => handleNavClick('contact')}
             className="w-full py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider text-white bg-[#c59b27] hover:bg-[#aa7f17] hover:shadow-[0_10px_20px_rgba(197,155,39,0.3)] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer hover:scale-101 active:scale-98"
           >
-            <span>Inquire With Mahek Group</span>
+            <span>Inquire With Mahek Real Estate</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

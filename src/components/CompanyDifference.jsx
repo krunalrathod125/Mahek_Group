@@ -1,4 +1,3 @@
-import { Sparkles } from 'lucide-react';
 import iconAmbition from '../assets/images/DASC_DascoDifference_Ambition_Icon_667827ff-c687-4536-8453-b2ed7cad1e36_100x100.svg';
 import iconPurpose from '../assets/images/DASC_DascoDifference_Purpose_Icon_daf5d44f-6755-4cd0-b48f-5fa7e5388d4e_100x100.svg';
 import iconExcellence from '../assets/images/DASC_DascoDifference_OurValues_Icon_Excellence_80x80.svg';
@@ -23,7 +22,6 @@ export default function CompanyDifference() {
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-6 md:mb-8">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#c59b27]/30 text-xs font-bold uppercase tracking-widest text-[#9a7210] mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-[#c59b27]" />
             <span>Foundational Philosophy</span>
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif text-neutral-900 tracking-tight">

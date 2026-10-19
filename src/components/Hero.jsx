@@ -69,7 +69,7 @@ export default function Hero({ onExploreProjects, onOpenContact: _onOpenContact 
       {/* ============================================================ */}
       <section
         id="hero"
-        className="relative w-full min-h-[85vh] sm:min-h-[90vh] lg:min-h-screen flex flex-col items-center justify-start overflow-hidden pt-20 sm:pt-24 md:pt-28 pb-12"
+        className="relative w-full min-h-[72vh] sm:min-h-[78vh] lg:min-h-[84vh] flex flex-col items-center justify-start overflow-hidden pt-16 sm:pt-20 md:pt-22 pb-6 sm:pb-8"
       >
         {/* Background Video */}
         <video
@@ -94,29 +94,31 @@ export default function Hero({ onExploreProjects, onOpenContact: _onOpenContact 
         <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-2 pointer-events-none"></div>
 
         {/* Centered Main Content */}
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center mt-6 sm:mt-8 md:mt-10 animate-in fade-in slide-in-from-bottom duration-700">
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center mt-4 sm:mt-6 md:mt-6 animate-in fade-in slide-in-from-bottom duration-700">
 
-          
-          {/* Brand Tagline */}
-          <p className="text-neutral-200 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8 font-normal drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-            Your one-stop shop for amazing products
-          </p>
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 border border-[#c59b27]/40 text-xs font-bold uppercase tracking-widest text-[#dfba52] mb-3 backdrop-blur-md">
+            <span>Transforming Industries • Est. 1982, Surat</span>
+          </div>
+
           {/* Main Serif Heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-serif font-extrabold text-[#dfba52] tracking-tight leading-[1.15] mb-4 sm:mb-6 drop-shadow-[0_3px_15px_rgba(0,0,0,0.85)] drop-shadow-[0_0_30px_rgba(197,155,39,0.4)]">
-            Welcome to Our Store
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-extrabold text-[#dfba52] tracking-tight leading-tight mb-2 sm:mb-4 drop-shadow-[0_3px_15px_rgba(0,0,0,0.85)] drop-shadow-[0_0_30px_rgba(197,155,39,0.4)]">
+            Mahek Real Estate
           </h1>
 
-
+          {/* Brand Tagline */}
+          <p className="text-neutral-200 text-xs sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-4 sm:mb-6 font-normal drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] px-2">
+            Diversified investments across Real Estate, Hospitality, Technical Textiles, Pharmaceuticals, and Lab-Grown Diamonds.
+          </p>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap justify-center items-center gap-4">
+          <div className="flex flex-wrap justify-center items-center gap-3 sm:gap-4">
             <button
               onClick={onExploreProjects}
-              className="inline-flex items-center justify-center px-8 sm:px-10 py-3 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider bg-[#c59b27] hover:bg-[#aa7f17] text-white hover:shadow-[0_10px_25px_rgba(197,155,39,0.3)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+              className="inline-flex items-center justify-center px-6 sm:px-10 py-2.5 sm:py-3 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider bg-[#c59b27] hover:bg-[#aa7f17] text-white hover:shadow-[0_10px_25px_rgba(197,155,39,0.3)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer shadow-md"
             >
-              Our Projects & Verticals
+              Explore Our Projects
             </button>
-          
           </div>
         </div>
 
@@ -156,74 +158,74 @@ export default function Hero({ onExploreProjects, onOpenContact: _onOpenContact 
       {/* ============================================================ */}
       {/* 2. STATS SECTION (Authentic figures from mahekgroup.com) */}
       {/* ============================================================ */}
-      <div className="relative z-20 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-12 mb-4 md:mb-6">
-        <div className="bg-white rounded-2xl border border-[#c59b27]/30 p-4 sm:p-6 md:p-8 backdrop-blur-md">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+      <div className="relative z-20 max-w-[1400px] mx-auto px-3 sm:px-6 lg:px-8 -mt-6 sm:-mt-8 mb-2 sm:mb-4">
+        <div className="bg-white rounded-2xl border border-[#c59b27]/30 p-3 sm:p-4 md:p-5 backdrop-blur-md">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
 
             {/* Stat 1: Year Founded */}
-            <div className="bg-white rounded-xl p-4 sm:p-6 text-center border border-neutral-200/80 hover:border-[#c59b27] hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-              <div className="flex justify-center mb-2">
-                <span className="p-2 rounded-full bg-[#c59b27]/10 text-[#9a7210] group-hover:scale-110 transition-transform">
-                  <Award className="w-5 h-5 text-[#c59b27]" />
+            <div className="bg-white rounded-xl p-2.5 sm:p-3.5 md:p-4 text-center border border-neutral-200/80 hover:border-[#c59b27] hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+              <div className="flex justify-center mb-1.5 sm:mb-2">
+                <span className="p-1.5 sm:p-2 rounded-full bg-[#c59b27]/10 text-[#9a7210] group-hover:scale-110 transition-transform">
+                  <Award className="w-4 h-4 sm:w-5 sm:h-5 text-[#c59b27]" />
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-serif text-neutral-900 group-hover:text-[#9a7210] tracking-tight transition-colors">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold font-serif text-neutral-900 group-hover:text-[#9a7210] tracking-tight transition-colors">
                 <span>{counters.founded}</span>
               </h2>
-              <p className="text-xs sm:text-sm font-bold text-[#9a7210] uppercase tracking-wider mt-1">
+              <p className="text-[11px] sm:text-xs md:text-sm font-bold text-[#9a7210] uppercase tracking-wider mt-0.5 sm:mt-1">
                 Year Founded
               </p>
-              <span className="text-[10px] text-neutral-500 font-medium">40+ Years of Excellence</span>
+              <span className="text-[9px] sm:text-[10px] text-neutral-500 font-medium block">40+ Years of Excellence</span>
             </div>
 
             {/* Stat 2: Real Estate Projects */}
-            <div className="bg-white rounded-xl p-4 sm:p-6 text-center border border-neutral-200/80 hover:border-[#c59b27] hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-              <div className="flex justify-center mb-2">
-                <span className="p-2 rounded-full bg-[#c59b27]/10 text-[#9a7210] group-hover:scale-110 transition-transform">
-                  <Building className="w-5 h-5 text-[#c59b27]" />
+            <div className="bg-white rounded-xl p-2.5 sm:p-5 md:p-6 text-center border border-neutral-200/80 hover:border-[#c59b27] hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+              <div className="flex justify-center mb-1.5 sm:mb-2">
+                <span className="p-1.5 sm:p-2 rounded-full bg-[#c59b27]/10 text-[#9a7210] group-hover:scale-110 transition-transform">
+                  <Building className="w-4 h-4 sm:w-5 sm:h-5 text-[#c59b27]" />
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-serif text-neutral-900 group-hover:text-[#9a7210] tracking-tight transition-colors">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold font-serif text-neutral-900 group-hover:text-[#9a7210] tracking-tight transition-colors">
                 <span>{counters.projects}</span>
                 <span className="text-[#c59b27]">+</span>
               </h2>
-              <p className="text-xs sm:text-sm font-bold text-[#9a7210] uppercase tracking-wider mt-1">
+              <p className="text-[11px] sm:text-xs md:text-sm font-bold text-[#9a7210] uppercase tracking-wider mt-0.5 sm:mt-1">
                 Real Estate Projects
               </p>
-              <span className="text-[10px] text-neutral-500 font-medium">Commissioned in Surat</span>
+              <span className="text-[9px] sm:text-[10px] text-neutral-500 font-medium block">Commissioned in Surat</span>
             </div>
 
             {/* Stat 3: Scap Group Production */}
-            <div className="bg-white rounded-xl p-4 sm:p-6 text-center border border-neutral-200/80 hover:border-[#c59b27] hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-              <div className="flex justify-center mb-2">
-                <span className="p-2 rounded-full bg-[#c59b27]/10 text-[#9a7210] group-hover:scale-110 transition-transform">
-                  <Users className="w-5 h-5 text-[#c59b27]" />
+            <div className="bg-white rounded-xl p-2.5 sm:p-5 md:p-6 text-center border border-neutral-200/80 hover:border-[#c59b27] hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+              <div className="flex justify-center mb-1.5 sm:mb-2">
+                <span className="p-1.5 sm:p-2 rounded-full bg-[#c59b27]/10 text-[#9a7210] group-hover:scale-110 transition-transform">
+                  <Users className="w-4 h-4 sm:w-5 sm:h-5 text-[#c59b27]" />
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-serif text-neutral-900 group-hover:text-[#9a7210] tracking-tight transition-colors">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold font-serif text-neutral-900 group-hover:text-[#9a7210] tracking-tight transition-colors">
                 <span>{counters.production}M</span>
                 <span className="text-[#c59b27]">+</span>
               </h2>
-              <p className="text-xs sm:text-sm font-bold text-[#9a7210] uppercase tracking-wider mt-1">
+              <p className="text-[11px] sm:text-xs md:text-sm font-bold text-[#9a7210] uppercase tracking-wider mt-0.5 sm:mt-1">
                 Scap Group Output
               </p>
-              <span className="text-[10px] text-neutral-500 font-medium">Meters Produced / Annum</span>
+              <span className="text-[9px] sm:text-[10px] text-neutral-500 font-medium block">Meters Produced / Annum</span>
             </div>
 
             {/* Stat 4: Hilton Collaboration */}
-            <div className="bg-white rounded-xl p-4 sm:p-6 text-center border border-neutral-200/80 hover:border-[#c59b27] hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-              <div className="flex justify-center mb-2">
-                <span className="p-2 rounded-full bg-[#c59b27]/10 text-[#9a7210] group-hover:scale-110 transition-transform">
-                  <CheckCircle2 className="w-5 h-5 text-[#c59b27]" />
+            <div className="bg-white rounded-xl p-2.5 sm:p-5 md:p-6 text-center border border-neutral-200/80 hover:border-[#c59b27] hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+              <div className="flex justify-center mb-1.5 sm:mb-2">
+                <span className="p-1.5 sm:p-2 rounded-full bg-[#c59b27]/10 text-[#9a7210] group-hover:scale-110 transition-transform">
+                  <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#c59b27]" />
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-serif text-neutral-900 group-hover:text-[#9a7210] tracking-tight transition-colors">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold font-serif text-neutral-900 group-hover:text-[#9a7210] tracking-tight transition-colors">
                 <span>1st</span>
               </h2>
-              <p className="text-xs sm:text-sm font-bold text-[#9a7210] uppercase tracking-wider mt-1">
+              <p className="text-[11px] sm:text-xs md:text-sm font-bold text-[#9a7210] uppercase tracking-wider mt-0.5 sm:mt-1">
                 Hilton Garden Inn
               </p>
-              <span className="text-[10px] text-neutral-500 font-medium">In the State of Gujarat</span>
+              <span className="text-[9px] sm:text-[10px] text-neutral-500 font-medium block">In the State of Gujarat</span>
             </div>
 
           </div>
