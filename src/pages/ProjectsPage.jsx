@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Building2, MapPin, ArrowRight, Filter, Search,
-  Compass, Eye, CheckCircle2, ChevronRight, ChevronDown, Layers, Home, Factory, Download, Send, Share2
+  Compass, Eye, CheckCircle2, ChevronRight, ChevronDown, Layers, Home, Factory, Download, Send, Share2, Sparkles
 } from 'lucide-react';
 import { projects } from '../data/projects';
+import LandmarkProjectCard from '../components/LandmarkProjectCard';
 import ProjectEnquiryModal from '../components/ProjectEnquiryModal';
 import ShareModal from '../components/ShareModal';
 import WhatsAppIcon from '../components/WhatsAppIcon';
@@ -47,7 +48,7 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-16 sm:pt-20 md:pt-24 pb-10 sm:pb-12 selection:bg-[#c59b27] selection:text-white">
+    <div className="min-h-screen bg-[#f8f7f5] pt-16 sm:pt-20 md:pt-24 pb-10 sm:pb-12 selection:bg-[#c59b27] selection:text-white">
       {/* Toast Notification */}
       {copiedProjectSlug && (
         <div className="fixed top-20 sm:top-24 left-1/2 -translate-x-1/2 z-50 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-neutral-900 text-white text-xs sm:text-sm font-bold shadow-2xl flex items-center gap-2.5 border border-[#c59b27] animate-in fade-in slide-in-from-top duration-200">
@@ -56,7 +57,7 @@ export default function ProjectsPage() {
         </div>
       )}
       {/* Top Breadcrumb & Header Banner (Aligned with Home Page Theme) */}
-      <section className="relative overflow-hidden bg-white text-neutral-900 py-6 sm:py-8 md:py-9 border-b border-[#c59b27]/20">
+      <section className="relative overflow-hidden bg-white text-neutral-900 py-6 sm:py-8 md:py-9 border-b border-neutral-200/80">
         {/* Subtle Ambient Gold Glow matching Home Page */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#c59b27]/5 rounded-full blur-[140px] pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-80 h-80 bg-[#c59b27]/5 rounded-full blur-[140px] pointer-events-none" />
@@ -75,11 +76,12 @@ export default function ProjectsPage() {
           {/* Heading & Subtitle */}
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#c59b27]/30 text-xs font-bold uppercase tracking-widest text-[#9a7210] mb-3 sm:mb-3.5 shadow-xs">
-              <span>Official Mahek Real Estate Portfolio</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#c59b27]" />
+              <span>Official Landmark Portfolio</span>
             </div>
 
             <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold font-serif text-neutral-900 tracking-tight leading-tight mb-3">
-              Explore Our <span className="gold-gradient-text">Projects</span>
+              Landmark <span className="gold-gradient-text">Projects</span>
             </h1>
 
             <p className="text-xs sm:text-base md:text-lg text-neutral-600 font-normal leading-relaxed max-w-2xl mx-auto">
@@ -113,7 +115,7 @@ export default function ProjectsPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 sm:mt-6">
         {/* Filters and Search Bar */}
         <div className="bg-white rounded-2xl p-3.5 sm:p-5 border border-[#c59b27]/20 shadow-[0_4px_20px_rgba(0,0,0,0.03)] mb-4 sm:mb-6 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 sm:gap-4">
-          
+
           {/* Mobile & Tablet: Category Dropdown (Zero Horizontal Scrolling) */}
           <div className="lg:hidden relative w-full">
             <div className="relative flex items-center">
@@ -158,11 +160,10 @@ export default function ProjectsPage() {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                    isActive
+                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${isActive
                       ? 'bg-[#c59b27] text-white shadow-md shadow-[#c59b27]/25'
                       : 'bg-neutral-100/80 text-neutral-600 hover:text-neutral-900 hover:bg-neutral-200/70'
-                  }`}
+                    }`}
                 >
                   {cat === 'Industrial' && <Factory className="w-3.5 h-3.5" />}
                   {cat === 'Commercial' && <Building2 className="w-3.5 h-3.5" />}
@@ -170,9 +171,8 @@ export default function ProjectsPage() {
                   {cat === 'All' && <Layers className="w-3.5 h-3.5" />}
                   <span>{cat}</span>
                   <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                      isActive ? 'bg-white/20 text-white' : 'bg-neutral-200 text-neutral-600'
-                    }`}
+                    className={`text-[10px] px-1.5 py-0.5 rounded-full ${isActive ? 'bg-white/20 text-white' : 'bg-neutral-200 text-neutral-600'
+                      }`}
                   >
                     {cat === 'All'
                       ? projects.length
@@ -257,120 +257,24 @@ export default function ProjectsPage() {
               </button>
             </motion.div>
           ) : (
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto justify-items-center">
               {filteredProjects.map((project, index) => {
                 return (
-                  <motion.article
+                  <motion.div
                     key={project.id}
                     layout
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.35, delay: index * 0.05 }}
-                    className="group bg-white rounded-xl sm:rounded-2xl border border-[#c59b27]/25 hover:border-[#c59b27] overflow-hidden shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(197,155,39,0.2)] transition-all duration-300 flex flex-col"
+                    className="w-full flex justify-center"
                   >
-                    {/* Project Image Card Header */}
-                    <div className="relative aspect-[16/11] bg-neutral-100 overflow-hidden">
-                      <img
-                        src={project.heroImage}
-                        alt={project.name}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                      />
-
-                      {/* Top Badges */}
-                      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 pointer-events-none">
-                        <span
-                          className={`px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[9px] sm:text-[11px] font-bold uppercase tracking-wider shadow-md ${
-                            project.category === 'Commercial'
-                              ? 'bg-blue-900 text-white border border-blue-700'
-                              : project.category === 'Residential'
-                              ? 'bg-emerald-900 text-white border border-emerald-700'
-                              : 'bg-amber-900 text-white border border-amber-700'
-                          }`}
-                        >
-                          {project.categoryLabel || project.category}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Card Content */}
-                    <div className="p-3 sm:p-5 md:p-6 flex-1 flex flex-col justify-between">
-                      <div>
-                        {/* Location */}
-                        <div className="flex items-start gap-1 text-[10px] sm:text-xs text-neutral-500 mb-1.5 sm:mb-2">
-                          <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#c59b27] shrink-0 mt-0.5" />
-                          <span className="line-clamp-1">{project.location}</span>
-                        </div>
-
-                        {/* Title */}
-                        <h2 className="text-sm sm:text-lg md:text-xl font-bold font-luxury text-neutral-900 group-hover:text-[#9a7210] transition-colors leading-snug mb-1 sm:mb-2 line-clamp-1">
-                          <Link to={`/project/${project.slug}`}>
-                            {project.name}
-                          </Link>
-                        </h2>
-
-                        {/* Short Description */}
-                        <p className="text-[11px] sm:text-xs md:text-sm text-neutral-600 line-clamp-2 leading-relaxed mb-2.5 sm:mb-4">
-                          {project.shortDescription}
-                        </p>
-
-                        {/* Verified Highlights Pills */}
-                        <div className="hidden sm:block space-y-1.5 mb-5 pt-3 border-t border-neutral-100">
-                          {project.highlights.slice(0, 2).map((h, i) => (
-                            <div key={i} className="flex items-center gap-2 text-[11px] text-neutral-700">
-                              <CheckCircle2 className="w-3 h-3 text-[#c59b27] shrink-0" />
-                              <span className="truncate">{h}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Card Action Buttons */}
-                      <div className="pt-2.5 sm:pt-4 border-t border-neutral-100 flex items-center gap-1 sm:gap-2 mt-auto">
-                        <Link
-                          to={`/project/${project.slug}`}
-                          className="flex-1 py-1.5 sm:py-2.5 px-1.5 sm:px-2.5 rounded-lg sm:rounded-xl bg-[#c59b27] hover:bg-[#aa7f17] text-white text-[10px] sm:text-xs font-bold text-center transition-colors flex items-center justify-center gap-1 group/btn shadow-xs"
-                        >
-                          <span className="truncate">Details</span>
-                          <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover/btn:translate-x-1 transition-transform" />
-                        </Link>
-
-                        <button
-                          type="button"
-                          onClick={() => setEnquiryProject(project)}
-                          className="py-1.5 sm:py-2.5 px-1.5 sm:px-3 rounded-lg sm:rounded-xl border border-[#c59b27] text-[#9a7210] hover:bg-[#c59b27] hover:text-white text-[10px] sm:text-xs font-bold transition-all text-center cursor-pointer shadow-xs shrink-0 flex items-center justify-center gap-1"
-                          title="Enquire Now"
-                        >
-                          <Send className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
-                          <span className="hidden min-[420px]:inline truncate">Enquire</span>
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={(e) => handleShareProject(project, e)}
-                          className="p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl border border-neutral-200 hover:border-[#c59b27] text-neutral-600 hover:text-[#9a7210] hover:bg-[#faf8f2] text-xs font-bold transition-all flex items-center justify-center cursor-pointer shadow-xs shrink-0"
-                          title="Share Project"
-                          aria-label="Share Project"
-                        >
-                          <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                        </button>
-
-                        <a
-                          href={`https://wa.me/919376622000?text=${encodeURIComponent(
-                            `Hello Mahek Real Estate,\n\nI would like to enquire about *${project.name}* (${project.location}). Please share current pricing and brochure.`
-                          )}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 sm:p-2.5 rounded-lg sm:rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs transition-all flex items-center justify-center cursor-pointer shadow-xs hover:shadow-[0_4px_15px_rgba(37,211,102,0.35)] shrink-0"
-                          title="WhatsApp Enquiry"
-                          aria-label="WhatsApp Enquiry"
-                        >
-                          <WhatsAppIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current shrink-0" />
-                        </a>
-                      </div>
-                    </div>
-                  </motion.article>
+                    <LandmarkProjectCard
+                      project={project}
+                      onEnquire={(p) => setEnquiryProject(p)}
+                      onShare={(p) => handleShareProject(p)}
+                    />
+                  </motion.div>
                 );
               })}
             </div>
